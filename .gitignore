@@ -10,5 +10,5 @@ _*.yml
 *~
 \#*#
 
-# JetBrains Rider
+# JetBrains IntelliJ-based IDEs
 .idea
