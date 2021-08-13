@@ -26,4 +26,4 @@ USER user
 WORKDIR /home/user
 ENV PATH /usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/user/.local/bin
 
-ADD ecr-get-login.sh /usr/local/bin/ecr-get-login.sh
+ADD scripts/*.sh /usr/local/bin/
