@@ -21,9 +21,6 @@ do
 		--docker-password=$DOCKER_PASSWORD \
 		--docker-email=${DOCKER_EMAIL} \
 		--namespace=${namespace}
-	echo
-  echo 
-	echo
 done
 
 echo "Patching default serviceaccount"
