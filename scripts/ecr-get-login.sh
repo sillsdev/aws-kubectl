@@ -12,10 +12,10 @@ do
 	echo "Working in Namespace ${namespace}"
 	echo
 	echo "Removing previous secret in namespace ${namespace}"
-	kubectl --namespace=${namespace} delete --ignore-not-found secret ${SECRET_NAME}
+	kubectl --namespace=${namespace} delete --ignore-not-found secret ${PULL_SECRET_NAME}
 
 	echo "Creating new secret in namespace ${namespace}"
-	kubectl create secret docker-registry ${SECRET_NAME} \
+	kubectl create secret docker-registry ${PULL_SECRET_NAME} \
 		--docker-server=$DOCKER_REGISTRY_SERVER \
 		--docker-username=$DOCKER_USER \
 		--docker-password=$DOCKER_PASSWORD \
