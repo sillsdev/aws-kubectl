@@ -1,3 +1,5 @@
+## sillsdev/aws-kubectl
+
 The Docker image is based off of `ubuntu:20.04` and adds:
 
 - aws-cli version 2;
@@ -7,14 +9,14 @@ The Docker image is based off of `ubuntu:20.04` and adds:
 
 The default user is `user` whose home directory is `/home/user`.
 
-# Running `ecr-get-login.sh`
+### Running `ecr-get-login.sh`
 
 The `ecr-get-login.sh` script will generate a login token to AWS ECR and store
 it in a `kubernetes.io/dockerconfigjson` type Secret. The secret will be created
 in each of the requested namespaces (see `NAMESPACES` under
 [Environment Variables](#environment-variables)). The login token is valid for 12 hours.
 
-## Environment Variables
+### Environment Variables
 
 `ecr-get-login.sh` requires the following environment variables to be set
 before it is invoked:
@@ -22,7 +24,7 @@ before it is invoked:
 | Variable Name         | Meaning                                                                                                                 |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | NAMESPACES            | A space-separated list of namespaces. `ecr-get-login.sh` will create the login secret in each of the namespaces listed. |
-| SECRET_NAME           | The name of the Kubernetes secret to be created. This will be the what is listed in the `imagePullSecrets`              |
+| PULL_SECRET_NAME      | The name of the Kubernetes secret to be created. This will be the what is listed in the `imagePullSecrets`              |
 | DOCKER_EMAIL          | E-mail address to be listed in the `docker-registry` secret                                                             |
 | AWS_ACCOUNT           | The 12-digit AWS account number                                                                                         |
 | AWS_REGION            | The region, or availability zone, for the AWS_ACCOUNT                                                                   |
