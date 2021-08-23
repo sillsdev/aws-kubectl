@@ -10,7 +10,7 @@
 # build.sh will build the sillsdev/aws-kubectl as
 # an untagged image and push it to Docker Hub.  (Docker Hub
 # will assign this image the tag "latest")
-# It will then for each tag provided as a command argument, it will:
+# For each tag provided as a command argument, it will:
 #   - add the tag to the latest image that was just built
 #   - push the image to Docker Hub
 

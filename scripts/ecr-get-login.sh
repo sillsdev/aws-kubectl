@@ -24,4 +24,4 @@ do
 done
 
 echo "Patching default serviceaccount"
-echo kubectl patch serviceaccount default -p "{\"imagePullSecrets\":[{\"name\":${PULL_SECRET_NAME}}]}"
+kubectl patch serviceaccount default -p "{\"imagePullSecrets\":[{\"name\": \"${PULL_SECRET_NAME}\"}]}"
