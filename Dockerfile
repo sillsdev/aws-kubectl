@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 # Resulting image is stored in https://hub.docker.com/r/sillsdev/aws-kubectl
 # See https://github.com/sillsdev/aws-kubectl#readme for usage information.
 LABEL maintainer="Jim Grady <jimgrady.jg@gmail.com>"
