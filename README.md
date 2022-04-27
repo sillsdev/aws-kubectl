@@ -1,6 +1,6 @@
-## sillsdev/aws-kubectl
+# sillsdev/aws-kubectl
 
-The Docker image is based off of `ubuntu:20.04` and adds:
+The Docker image is based off of `ubuntu:22.04` and adds:
 
 - aws-cli version 2;
 - the current stable release of kubectl; and
@@ -9,14 +9,14 @@ The Docker image is based off of `ubuntu:20.04` and adds:
 
 The default user is `user` whose home directory is `/home/user`.
 
-### Running `ecr-get-login.sh`
+## Running `ecr-get-login.sh`
 
 The `ecr-get-login.sh` script will generate a login token to AWS ECR and store
 it in a `kubernetes.io/dockerconfigjson` type Secret. The secret will be created
 in each of the requested namespaces (see `NAMESPACES` under
 [Environment Variables](#environment-variables)). The login token is valid for 12 hours.
 
-### Environment Variables
+## Environment Variables
 
 `ecr-get-login.sh` requires the following environment variables to be set
 before it is invoked:
