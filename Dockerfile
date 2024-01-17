@@ -25,8 +25,10 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
   && mv kubectl /usr/local/bin \
   && chmod +x /usr/local/bin/kubectl
 
-RUN adduser --system user
+ENV HOME=/home/user
+
+RUN adduser --system --group --uid 999 --home $HOME user
 USER user
-WORKDIR /home/user
+WORKDIR $HOME
 
 ADD scripts/*.sh /usr/local/bin/
