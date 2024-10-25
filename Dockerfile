@@ -7,7 +7,7 @@ ARG ARCH=amd64
 
 # Install AWS-CLI version 2
 # See https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
-RUN AWS_ARCH=$(case $ARCH in amd64) echo x86_64;; arm64) echo aarch64;; *) exit 1;; esac) && \
+RUN AWS_ARCH=$(case $ARCH in amd64) echo x86_64;; arm64) echo aarch64;; esac) && \
   apt-get update && \
   apt-get install -y apt-utils curl zip && \
   apt-get autoremove && \

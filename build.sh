@@ -17,7 +17,7 @@
 # Supported architectures: amd64, arm64
 #####################################################
 
-ARCH=$(case $(uname -m) in *86*) echo amd64;; *aarch*) echo arm64;; *arm*) echo arm64;; *) exit 1;; esac)
+ARCH=$(case $(uname -m) in *86*) echo amd64;; *aarch*) echo arm64;; *arm*) echo arm64;; esac)
 echo "Architecture: $ARCH"
 
 IMAGE=sillsdev/aws-kubectl
