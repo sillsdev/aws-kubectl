@@ -3,11 +3,12 @@ FROM ubuntu:22.04
 # See https://github.com/sillsdev/aws-kubectl#readme for usage information.
 LABEL maintainer="Danny Rorabaugh <daniel_rorabaugh@sil.org>"
 
+# Default to x86/AMD64 if ARCH not specified with --build-arg
 ARG ARCH=amd64
 
 # Install AWS-CLI version 2
 # See https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
-RUN AWS_ARCH=$(case $ARCH in amd64) echo x86_64;; arm64) echo aarch64;; esac) && \
+RUN AWS_ARCH=$([ $ARCH == arm64 ] && echo aarch64 || echo x86_64) && \
   apt-get update && \
   apt-get install -y apt-utils curl zip && \
   apt-get autoremove && \
