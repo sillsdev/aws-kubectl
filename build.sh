@@ -1,35 +1,51 @@
 #! /bin/bash
 
-#####################################################
-# build.sh - script to build and push the
-# sillsdev/aws-kubectl image to Docker Hub
+###############################################################
+# build.sh - script to build and push the aws-kubectl image
 #
 # Usage:
-#   build.sh [ tag1, tag2, ...]
-#
-# build.sh will build the sillsdev/aws-kubectl as
-# an untagged image and push it to Docker Hub.
-# (Docker Hub will assign this image the tag "latest".)
-# For each tag provided as a command argument, it will:
-#   - add the tag to the latest image that was just built
-#   - push the image to Docker Hub
+#   build.sh [-a/--arch ARCH] [-i/--image IMAGE] [-t/--tag TAG]
 #
 # Supported architectures: amd64, arm64
-#####################################################
+# Default architecture: amd64
+# Default image: public.ecr.aws/thecombine/aws-kubectl
+# Default tag: latest
+###############################################################
 
-ARCH=$(case $(uname -m) in *86*) echo amd64;; *aarch*) echo arm64;; *arm*) echo arm64;; *) exit 1;; esac)
-echo "Architecture: $ARCH"
+# Default arguments
+ARCH=amd64
+IMAGE="public.ecr.aws/thecombine/aws-kubectl"
+TAG=
 
-IMAGE=sillsdev/aws-kubectl
-echo "Image: $IMAGE"
-
-echo "Building..."
-docker build -t ${IMAGE} -f Dockerfile . --build-arg=ARCH=$ARCH
-
-echo "Pushing..."
-docker push ${IMAGE}
-while [ $# -gt 0 ] ; do
-  docker tag ${IMAGE}:latest ${IMAGE}:$1
-  docker push ${IMAGE}:$1
+# Parse arguments to customize installation
+while (( "$#" )) ; do
+  OPT=$1
+  case $OPT in
+    -a|--arch)
+      ARCH=$2
+      shift
+      ;;
+    -i|--image)
+      IMAGE=$2
+      shift
+      ;;
+    -t|--tag)
+      TAG=$2
+      shift
+      ;;
+    *)
+      warning "Unrecognized option: $OPT"
+      ;;
+  esac
   shift
 done
+
+echo "Architecture(s): ${ARCH}"
+echo "Image: ${IMAGE}"
+if [ -n "${TAG}" ]; then
+  echo "Tag: ${TAG}"
+  IMAGE=${IMAGE}:${TAG}
+fi
+
+echo "Building and pushing"
+docker build --build-arg=ARCH=$ARCH --platform=linux/$ARCH --push -t ${IMAGE} .
