@@ -48,4 +48,4 @@ if [ -n "${TAG}" ]; then
 fi
 
 echo "Building and pushing"
-docker build --build-arg=ARCH=${ARCH} --platform=linux/${ARCH} --push -t ${IMAGE} .
+docker build --platform=linux/${ARCH} --push -t ${IMAGE} .

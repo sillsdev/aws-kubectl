@@ -1,14 +1,14 @@
+# Resulting image is stored in https://gallery.ecr.aws/thecombine/aws-kubectl
+# See https://github.com/sillsdev/aws-kubectl#readme for usage information
 FROM ubuntu:22.04
-# Resulting image is stored in https://hub.docker.com/r/sillsdev/aws-kubectl
-# See https://github.com/sillsdev/aws-kubectl#readme for usage information.
 LABEL maintainer="Danny Rorabaugh <daniel_rorabaugh@sil.org>"
 
-# Default to x86/AMD64 if ARCH not specified with --build-arg
-ARG ARCH=amd64
+# Use the <arch> from the --platform=<os>/<arch> flag
+ARG TARGETARCH
 
 # Install AWS-CLI version 2
 # See https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
-RUN AWS_ARCH=$(case $ARCH in amd64) echo x86_64;; arm64) echo aarch64;; *) exit 1;; esac) && \
+RUN AWS_ARCH=$(case $TARGETARCH in amd64) echo x86_64;; arm64) echo aarch64;; *) exit 1;; esac) && \
   apt-get update && \
   apt-get install -y apt-utils curl zip && \
   apt-get autoremove && \
@@ -25,7 +25,7 @@ RUN AWS_ARCH=$(case $ARCH in amd64) echo x86_64;; arm64) echo aarch64;; *) exit 
 
 # Install kubectl
 # See https://kubernetes.io/docs/tasks/tools/
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" \
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${TARGETARCH}/kubectl" \
   && mv kubectl /usr/local/bin \
   && chmod +x /usr/local/bin/kubectl
 
