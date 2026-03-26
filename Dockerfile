@@ -29,10 +29,15 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
   && mv kubectl /usr/local/bin \
   && chmod +x /usr/local/bin/kubectl
 
+# Create non-root user with a fixed UID
 ENV HOME=/home/user
-
 RUN adduser --system --group --uid 999 --home $HOME user
+
+# Add executable scripts without Windows carriage returns
+ADD scripts/*.sh /usr/local/bin/
+RUN sed -i 's/\r$//' /usr/local/bin/*.sh
+RUN chmod +x /usr/local/bin/*.sh
+
+# Change to non-root user
 USER user
 WORKDIR $HOME
-
-ADD scripts/*.sh /usr/local/bin/
