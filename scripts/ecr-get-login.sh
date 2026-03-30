@@ -2,7 +2,6 @@
 set -e
 
 DOCKER_REGISTRY_SERVER=${AWS_ACCOUNT}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
-DOCKER_USER=AWS
 echo "Retrieving Docker Credentials for the AWS ECR Registry ${AWS_ACCOUNT}"
 echo "AWS_DEFAULT_REGION is ${AWS_DEFAULT_REGION}"
 echo "DOCKER_REGISTRY_SERVER is ${DOCKER_REGISTRY_SERVER}"
@@ -19,9 +18,8 @@ do
 	echo "Creating new secret in namespace ${namespace}"
 	kubectl create secret docker-registry ${PULL_SECRET_NAME} \
 		--docker-server=$DOCKER_REGISTRY_SERVER \
-		--docker-username=$DOCKER_USER \
+		--docker-username=AWS \
 		--docker-password="$DOCKER_PASSWORD" \
-		--docker-email="${DOCKER_EMAIL}" \
 		--namespace=${namespace}
 done
 

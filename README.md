@@ -25,7 +25,6 @@ before it is invoked:
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | NAMESPACES            | A space-separated list of namespaces. `ecr-get-login.sh` will create the login secret in each of the namespaces listed. |
 | PULL_SECRET_NAME      | The name of the Kubernetes secret to be created. This will be the what is listed in the `imagePullSecrets`              |
-| DOCKER_EMAIL          | E-mail address to be listed in the `docker-registry` secret                                                             |
 | AWS_ACCOUNT           | The 12-digit AWS account number                                                                                         |
 | AWS_REGION            | The region, or availability zone, for the AWS_ACCOUNT                                                                   |
 | AWS_ACCESS_KEY_ID     | ID for an access key that can read from AWS ECR                                                                         |
