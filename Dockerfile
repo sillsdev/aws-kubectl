@@ -32,7 +32,7 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 
 # Create non-root user with a fixed UID
 ENV HOME=/home/user
-RUN groupadd --system --gid 999 user \
+RUN groupadd --system --gid 999 group \
   && useradd --system --uid 999 --gid 999 --home-dir $HOME --create-home --no-log-init user
 
 # Add executable scripts without Windows carriage returns
