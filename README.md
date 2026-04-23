@@ -1,6 +1,6 @@
 # sillsdev/aws-kubectl
 
-The Docker image is based off of `ubuntu:22.04` and adds:
+The Docker image is based off of `ubuntu:24.04` and adds:
 
 - aws-cli version 2;
 - the current stable release of kubectl; and

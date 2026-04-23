@@ -1,19 +1,20 @@
 # Resulting image is stored in https://gallery.ecr.aws/thecombine/aws-kubectl
 # See https://github.com/sillsdev/aws-kubectl#readme for usage information
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 LABEL maintainer="Danny Rorabaugh <daniel_rorabaugh@sil.org>"
 
 # Use the <arch> from the --platform=<os>/<arch> flag
 ARG TARGETARCH
 
+# Update apt and install basic dependencies
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends ca-certificates curl unzip && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+
 # Install AWS-CLI version 2
 # See https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
 RUN AWS_ARCH=$(case $TARGETARCH in amd64) echo x86_64;; arm64) echo aarch64;; *) exit 1;; esac) && \
-  apt-get update && \
-  apt-get install -y apt-utils curl zip && \
-  apt-get autoremove && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/* && \
   curl -sL https://awscli.amazonaws.com/awscli-exe-linux-${AWS_ARCH}.zip -o awscliv2.zip && \
   unzip awscliv2.zip && \
   aws/install && \
@@ -31,12 +32,13 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 
 # Create non-root user with a fixed UID
 ENV HOME=/home/user
-RUN adduser --system --group --uid 999 --home $HOME user
+RUN groupadd --system --gid 999 group \
+  && useradd --system --uid 999 --gid 999 --home-dir $HOME --create-home --no-log-init user
 
 # Add executable scripts without Windows carriage returns
-ADD scripts/*.sh /usr/local/bin/
-RUN sed -i 's/\r$//' /usr/local/bin/*.sh
-RUN chmod +x /usr/local/bin/*.sh
+COPY scripts/*.sh /usr/local/bin/
+RUN sed -i 's/\r$//' /usr/local/bin/*.sh \
+  && chmod +x /usr/local/bin/*.sh
 
 # Change to non-root user
 USER user
